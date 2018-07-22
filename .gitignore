@@ -1,0 +1,7 @@
+*
+!.gitignore
+!main.cpp
+!output.txt
+!in.txt
+!out.txt
+!*/
