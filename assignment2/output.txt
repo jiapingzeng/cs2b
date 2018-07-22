@@ -1,0 +1,220 @@
+-------------------------
+Building inventory:
+
+Building inventory...
+Finished building inventory
+
+-------------------------
+Showing inventory:
+
+Name: Camcorder
+Quantity: 86
+ID: 844
+Price: 299.99
+Condition: New
+
+Name: DVD Player
+Quantity: 17
+ID: 9437
+Price: 149.99
+Condition: Refurbished
+
+Name: Blueray Player
+Quantity: 76
+ID: 5610
+Price: 49.99
+Condition: Used
+
+Name: TV
+Quantity: 21
+ID: 7351
+Price: 799.99
+Condition: Refurbished
+
+Name: Camera
+Quantity: 13
+ID: 5557
+Price: 49.99
+Condition: Defective
+
+Name: Xbox 360
+Quantity: 87
+ID: 4410
+Price: 299.99
+Condition: Used
+
+Name: PS4
+Quantity: 44
+ID: 5487
+Price: 99.99
+Condition: Defective
+
+Name: Wii
+Quantity: 83
+ID: 7300
+Price: 199.99
+Condition: Refurbished
+
+Name: Laptop
+Quantity: 8
+ID: 9701
+Price: 899.99
+Condition: New
+
+Name: Battery
+Quantity: 71
+ID: 9026
+Price: 9.99
+Condition: New
+
+Name: Smartphone
+Quantity: 61
+ID: 8158
+Price: 299.99
+Condition: Defective
+
+Name: Desktop Computer
+Quantity: 75
+ID: 5758
+Price: 1499.99
+Condition: New
+
+Name: Printer
+Quantity: 70
+ID: 3254
+Price: 349.99
+Condition: Refurbished
+
+Name: Earphones
+Quantity: 47
+ID: 5064
+Price: 9.99
+Condition: Defective
+
+Name: Mouse
+Quantity: 72
+ID: 7748
+Price: 39.99
+Condition: Refurbished
+
+Name: Keyboard
+Quantity: 20
+ID: 2556
+Price: 149.99
+Condition: New
+
+Finished showing inventory
+
+-------------------------
+Showing defect inventory:
+
+Name: Camera
+Quantity: 13
+ID: 5557
+Price: 49.99
+Condition: Defective
+
+Name: PS4
+Quantity: 44
+ID: 5487
+Price: 99.99
+Condition: Defective
+
+Name: Smartphone
+Quantity: 61
+ID: 8158
+Price: 299.99
+Condition: Defective
+
+Name: Earphones
+Quantity: 47
+ID: 5064
+Price: 9.99
+Condition: Defective
+
+Finished showing defect inventory
+
+-------------------------
+Searching/Discontinuing product:
+
+Enter an ID to discontinue that product, or enter -1 to exit:
+844
+844
+
+Product 844, price = 299.99, condition = New destroyed
+InventoryItem Camcorder with 86 items destroyed
+
+Enter an ID to discontinue that product, or enter -1 to exit:
+2556
+2556
+
+Product 2556, price = 149.99, condition = New destroyed
+InventoryItem Keyboard with 20 items destroyed
+
+Enter an ID to discontinue that product, or enter -1 to exit:
+9026
+9026
+
+Product 9026, price = 9.99, condition = New destroyed
+InventoryItem Battery with 71 items destroyed
+
+Enter an ID to discontinue that product, or enter -1 to exit:
+666
+666
+
+Product with ID 666 not found
+
+Enter an ID to discontinue that product, or enter -1 to exit:
+-1
+-1
+
+Finished discontinuing product
+
+-------------------------
+Exporting inventory:
+
+Finished exporting inventory
+
+-------------------------
+
+Product 9437, price = 149.99, condition = Refurbished destroyed
+InventoryItem DVD Player with 17 items destroyed
+
+Product 5610, price = 49.99, condition = Used destroyed
+InventoryItem Blueray Player with 76 items destroyed
+
+Product 7351, price = 799.99, condition = Refurbished destroyed
+InventoryItem TV with 21 items destroyed
+
+Product 5557, price = 49.99, condition = Defective destroyed
+InventoryItem Camera with 13 items destroyed
+
+Product 4410, price = 299.99, condition = Used destroyed
+InventoryItem Xbox 360 with 87 items destroyed
+
+Product 5487, price = 99.99, condition = Defective destroyed
+InventoryItem PS4 with 44 items destroyed
+
+Product 7300, price = 199.99, condition = Refurbished destroyed
+InventoryItem Wii with 83 items destroyed
+
+Product 9701, price = 899.99, condition = New destroyed
+InventoryItem Laptop with 8 items destroyed
+
+Product 8158, price = 299.99, condition = Defective destroyed
+InventoryItem Smartphone with 61 items destroyed
+
+Product 5758, price = 1499.99, condition = New destroyed
+InventoryItem Desktop Computer with 75 items destroyed
+
+Product 3254, price = 349.99, condition = Refurbished destroyed
+InventoryItem Printer with 70 items destroyed
+
+Product 5064, price = 9.99, condition = Defective destroyed
+InventoryItem Earphones with 47 items destroyed
+
+Product 7748, price = 39.99, condition = Refurbished destroyed
+InventoryItem Mouse with 72 items destroyed
+
+
+Process finished with exit code 0

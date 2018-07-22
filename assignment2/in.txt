@@ -1,0 +1,16 @@
+Camcorder;86;299.99;N
+DVD Player;17;149.99;R
+Blueray Player;76;49.99;U
+TV;21;799.99;R
+Camera;13;49.99;D
+Xbox 360;87;299.99;U
+PS4;44;99.99;D
+Wii;83;199.99;R
+Laptop;8;899.99;N
+Battery;71;9.99;N
+Smartphone;61;299.99;D
+Desktop Computer;75;1499.99;N
+Printer;70;349.99;R
+Earphones;47;9.99;D
+Mouse;72;39.99;R
+Keyboard;20;149.99;N
