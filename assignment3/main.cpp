@@ -26,7 +26,7 @@ public:
     virtual ~Transaction();
     bool operator== (Transaction other);
     virtual void Display();
-    virtual void EarnPoints();
+    virtual int EarnPoints();
     string get_date() const;
     int get_id() const;
     double get_amount() const;
@@ -41,7 +41,8 @@ private:
     string card_number_;
     double balance_;
     int reward_points_;
-    Transaction transactions[g_kArraySize];
+    Transaction transactions_[g_kArraySize];
+    int array_count_;
 public:
     Customer();
     Customer(string name, string card_number, double balance, int reward_points);
@@ -51,24 +52,60 @@ public:
     void ReportRewardSummary();
 };
 
+class DepartmentStoreTransaction: public Transaction {
+private:
+    string department_name_;
+    int return_days_;
+    const int kPointsPerDollar = 1.5;
+public:
+    DepartmentStoreTransaction();
+    DepartmentStoreTransaction(string department_name, int return_days);
+    virtual ~DepartmentStoreTransaction();
+    virtual void Display();
+    virtual int EarnPoints();
+    string get_department_name();
+    int get_return_days();
+    void set_department_name(string department_name);
+    void set_return_days(int return_days);
+};
+
+class BankingTransaction: public Transaction {
+private:
+    string type_;
+    double fee_;
+    const int kPointsPerDollar = 0;
+public:
+    BankingTransaction();
+    BankingTransaction(string type, double fee);
+    virtual ~BankingTransaction();
+    virtual void Display();
+    virtual int EarnPoints();
+    string get_type();
+    double get_fee();
+    void set_type(string type);
+    void set_fee(double fee);
+};
+
+class GroceryTransaction: public Transaction {
+private:
+    string store_name_;
+    const int kPointsPerDollar = 2.5;
+public:
+    GroceryTransaction();
+    GroceryTransaction(string store_name);
+    virtual ~GroceryTransaction();
+    virtual void Display();
+    virtual void EarnPoints();
+    string get_store_name();
+    void set_store_name(string store_name);
+};
+
 int main() {
     // TODO: write revision history
     // TODO: const
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
-
-class DepartmentStoreTransaction: public Transaction {
-
-};
-
-class BankingTransaction: public Transaction {
-
-};
-
-class GroceryTranscation: public Transaction {
-
-};
 
 // region class Transaction definitions
 
@@ -104,9 +141,10 @@ Customer::Customer():
         name_("Mr. No name"),
         card_number_("0000000000000000"),
         balance_(0.0),
-        reward_points_(1000) {
+        reward_points_(1000),
+        array_count_(0) {
     for (int i = 0; i < g_kArraySize; ++i) {
-        transactions[i] = nullptr;
+        transactions_[i] = nullptr;
     }
 }
 
@@ -114,9 +152,10 @@ Customer::Customer(string name, string card_number, double balance, int reward_p
         name_(name),
         card_number_(card_number),
         balance_(balance),
-        reward_points_(reward_points) {
+        reward_points_(reward_points),
+        array_count_(0) {
     for (int i = 0; i < g_kArraySize; ++i) {
-        transactions[i] = nullptr;
+        transactions_[i] = nullptr;
     }
 }
 
@@ -133,29 +172,174 @@ void Customer::ReadTransactions(string path) {
         cout << "Error opening file" << endl;
         exit(-1);
     }
-    char transaction_type;
-    string date;
-    int id = 0;
-    double amount;
+
     string field;
+
     while (getline(ifs, field, '~')) {
-        transaction_type = field[0];
+        Transaction * transaction = nullptr;
+
+        char transaction_type = field[0];
 
         getline(ifs, field, '~');
-        date = field;
+        string date = field;
 
         getline(ifs, field, '~');
-        id = atoi(field.c_str());
+        int id = atoi(field.c_str());
 
         getline(ifs, field, '~');
-        amount = atof(field.c_str());
+        double amount = atof(field.c_str());
 
         switch (transaction_type) {
+            case 'B':
+                getline(ifs, field, '~');
+                string type = field;
+                getline(ifs, field, '~');
+                double fee = atof(field.c_str());
+                transaction = new BankingTransaction(date, id, amount,
+                        type, fee);
+                break;
             case 'D':
-            case 'd':
+                getline(ifs, field, '~');
+                string department_name = field;
+                getline(ifs, field, '~');
+                int return_days = atoi(field.c_str());
+                transaction = new DepartmentStoreTransaction(date, id, amount,
+                        department_name, return_days);
+                break;
+            case 'G':
+                getline(ifs, field, '~');
+                string store_name = field;
+                transaction = new GroceryTransaction(date, id, amount,
+                        store_name);
+                break;
+        }
 
+        if (transaction) {
+            transactions_[array_count_++] = transaction;
+        } else {
+            cout << "Error occurred when processing data file" << endl;
+            exit(-1);
         }
     }
+}
+
+//endregion
+
+//region class DepartmentStoreTransaction definitions
+
+DepartmentStoreTransaction::DepartmentStoreTransaction():
+        Transaction(),
+        department_name_("Nameless department"),
+        return_days_(0) {}
+
+DepartmentStoreTransaction::DepartmentStoreTransaction(string date, int id, double amount,
+                                                       string department_name, int return_days):
+        Transaction(date, id, amount),
+        department_name_(department_name),
+        return_days_(return_days) {}
+
+DepartmentStoreTransaction::~DepartmentStoreTransaction() {
+    cout << "Department store transaction destroyed" << endl;
+}
+
+void DepartmentStoreTransaction::Display() {
+    cout << "Department store transaction" << endl;
+}
+
+int DepartmentStoreTransaction::EarnPoints() {
+    return floor(amount_ * kPointsPerDollar);
+}
+
+string DepartmentStoreTransaction::get_department_name() {
+    return department_name_;
+}
+
+int DepartmentStoreTransaction::get_return_days() {
+    return return_days_;
+}
+
+void DepartmentStoreTransaction::set_department_name(string department_name) {
+    department_name_ = department_name;
+}
+
+void DepartmentStoreTransaction::set_return_days(int return_days) {
+    return_days_ = return_days;
+}
+
+//endregion
+
+//region class BankingTransaction definitions
+
+BankingTransaction::BankingTransaction():
+        Transaction(),
+        type_("Look ma no fees"),
+        fee_(0.0) {}
+
+BankingTransaction::BankingTransaction(string date, int id, double amount,
+                                       string type, double fee):
+        Transaction(date, id, amount),
+        type_(type),
+        fee_(fee) {}
+
+BankingTransaction::~BankingTransaction() {
+    cout << "Banking transaction destroyed" << endl;
+}
+
+void BankingTransaction::Display() {
+    cout << "Banking transaction" << endl;
+}
+
+int BankingTransaction::EarnPoints() {
+    return floor(amount_ * kPointsPerDollar);
+}
+
+string BankingTransaction::get_type() {
+    return type_;
+}
+
+double BankingTransaction::get_fee() {
+    return fee_;
+}
+
+void BankingTransaction::set_type(string type) {
+    type_ = type;
+}
+
+void BankingTransaction::set_fee(double fee) {
+    fee_ = fee;
+}
+
+//endregion
+
+//region class GroceryTransaction definitions
+
+GroceryTransaction::GroceryTransaction():
+        Transaction(),
+        store_name_("A store has no name") {}
+
+GroceryTransaction::GroceryTransaction(string date, int id, double amount,
+                                       string store_name):
+        Transaction(date, id, amount),
+        store_name_(store_name) {}
+
+GroceryTransaction::~GroceryTransaction() {
+    cout << "Grocery transaction destroyed" << endl;
+}
+
+void GroceryTransaction::Display() {
+    cout << "Grocery transaction" << endl;
+}
+
+int GroceryTransaction::EarnPoints() {
+    return floor(amount_ * kPointsPerDollar);
+}
+
+string GroceryTransaction::get_store_name() {
+    return store_name_;
+}
+
+void GroceryTransaction::set_store_name(string store_name) {
+    store_name_ = store_name;
 }
 
 //endregion
